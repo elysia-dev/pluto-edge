@@ -402,7 +402,7 @@ fn convert_to_halo2_field(f: GenericFieldElement<Fr>) -> Scalar {
 /// # Returns
 ///
 /// The field element in ACIR representation
-fn convert_to_acir_field(f: Scalar) -> GenericFieldElement<Fr> {
+pub fn convert_to_acir_field(f: Scalar) -> GenericFieldElement<Fr> {
   let mut bytes = f.to_bytes();
   bytes.reverse();
   GenericFieldElement::from_be_bytes_reduce(&bytes)
