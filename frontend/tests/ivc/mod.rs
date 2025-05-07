@@ -61,13 +61,15 @@ fn test_ivc_private_inputs() {
   let switchboard = Switchboard::<ROM>::new(
     programs,
     switchboard_inputs,
-    vec![Scalar::from(1), Scalar::from(2)],
+    vec![Scalar::from(1), Scalar::from(2), Scalar::from(3), Scalar::from(4), Scalar::from(5), Scalar::from(6), Scalar::from(7), Scalar::from(8), Scalar::from(9), Scalar::from(10), Scalar::from(11),],
     0,
   );
   let setup = Setup::new(switchboard).unwrap();
   let snark = run(&setup).unwrap();
   let zi = snark.zi_primary();
   dbg!(zi);
+  // 1 + 3 + 420 == 424
+  // 2 + 3 + 69 == 74
   assert_eq!(zi[0], Scalar::from(424));
   assert_eq!(zi[1], Scalar::from(74));
 }
@@ -96,7 +98,7 @@ fn test_nivc() {
   let switchboard = Switchboard::<ROM>::new(
     programs,
     switchboard_inputs,
-    vec![Scalar::from(1), Scalar::from(2)],
+    vec![Scalar::from(1), Scalar::from(2), Scalar::from(3), Scalar::from(4), Scalar::from(5), Scalar::from(6), Scalar::from(7), Scalar::from(8), Scalar::from(9), Scalar::from(10), Scalar::from(11),],
     0,
   );
   let setup = Setup::new(switchboard).unwrap();
@@ -193,6 +195,10 @@ fn test_ivc_compression_basic() {
   let switchboard = Switchboard::<ROM>::new(programs, switchboard_inputs, vec![Scalar::from(2)], 0);
   let setup = Setup::new(switchboard).unwrap();
   let snark = run(&setup).unwrap();
+  let (z1_primary, z1_secondary) =
+    snark.verify(&setup.params, &snark.z0_primary(), &snark.z0_secondary()).unwrap();
+  dbg!(&z1_primary); // 0x1b4
+  dbg!(&z1_secondary); // 0x0
   let compressed_proof = compress(&setup, &snark).unwrap();
   let (_, vk) = CompressedSNARK::setup(&setup.params).unwrap();
   compressed_proof.verify(&setup.params, &vk, &snark.z0_primary(), &snark.z0_secondary()).unwrap();
@@ -376,7 +382,6 @@ fn test_ivc_plaintext_authentication_split() {
     Scalar::from_raw([0x7b8bf22b95aeb257, 0x5e932dfba83c98d9, 0x015189ca786a7a58, 0x14ecfaf8d7323cb2]),
     // 0x12e3cd05d02c32d340e5bf0fa57f2d1da758063cee65e60de5778fb75242b05d
     Scalar::from_raw([0xe5778fb75242b05d, 0xa758063cee65e60d, 0x40e5bf0fa57f2d1d, 0x12e3cd05d02c32d3]),
-    Scalar::from(0),
     Scalar::from(6),
     Scalar::from(0),
     Scalar::from(1),

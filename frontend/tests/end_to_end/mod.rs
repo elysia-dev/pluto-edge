@@ -11,6 +11,56 @@ use tempfile::tempdir;
 
 use super::*;
 
+#[test]
+#[traced_test]
+fn test_create_setup_file() {
+  // ----------------------------------------------------------------------------------------------------------------- //
+  // Offline Setup Phase
+  // ----------------------------------------------------------------------------------------------------------------- //
+  // Step 1: Create demo programs for our test
+  let swap_memory_program = demo::swap_memory();
+  let square_program = demo::square_zeroth();
+  println!("1. Read programs");
+
+  // Step 2: Create switchboard with ROM memory model, no inputs are necessary since this is just
+  // creating the setup
+  let switchboard =
+      Switchboard::<Configuration>::new(vec![swap_memory_program.clone(), square_program.clone()]);
+  println!("2. Created switchboard");
+
+  // Step 3: Initialize the setup
+  let setup = Setup::new(switchboard.clone()).unwrap();
+  println!("3. Initialized setup");
+
+  // Step 4: Save the setup to a file
+  let temp_dir = tempdir().unwrap();
+  let file_path = temp_dir.path().join("test_setup.bytes");
+  setup.store_file(&file_path).unwrap();
+  println!("4. Saved setup to file");  // ----------------------------------------------------------------------------------------------------------------- //
+  // Offline Setup Phase
+  // ----------------------------------------------------------------------------------------------------------------- //
+  // Step 1: Create demo programs for our test
+  let swap_memory_program = demo::swap_memory();
+  let square_program = demo::square_zeroth();
+  println!("1. Read programs");
+
+  // Step 2: Create switchboard with ROM memory model, no inputs are necessary since this is just
+  // creating the setup
+  let switchboard =
+      Switchboard::<Configuration>::new(vec![swap_memory_program.clone(), square_program.clone()]);
+  println!("2. Created switchboard");
+
+  // Step 3: Initialize the setup
+  let setup = Setup::new(switchboard.clone()).unwrap();
+  println!("3. Initialized setup");
+
+  // Step 4: Save the setup to a file
+  let temp_dir = tempdir().unwrap();
+  let file_path = temp_dir.path().join("test_setup_rom.bytes");
+  setup.store_file(&file_path).unwrap();
+  println!("4. Saved setup to file");
+}
+
 /// Note that this test goes through a flow that mimics the offline setup component, online proving
 /// component, and a separate verification component.
 #[test]
