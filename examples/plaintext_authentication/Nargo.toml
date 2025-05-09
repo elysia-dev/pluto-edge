@@ -1,0 +1,8 @@
+[package]
+name = "plaintext_authentication"
+type = "bin"
+authors = [""]
+
+[dependencies]
+nivc={ path="../../nivc" }
+noir_web_prover_circuits = { git = "https://github.com/elysia-dev/noir-web-prover-circuits/tree/feat/chacha20" }

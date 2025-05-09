@@ -153,4 +153,17 @@ pub mod demo {
       std::fs::read("../target/collatz_odd.json").expect("Failed to read Noir program file");
     NoirProgram::new(&bytecode)
   }
+
+  /// Creates a Noir program that is chacha20 encryption. CIRCUIT_SIZE = 64
+  pub fn plaintext_authentication() -> NoirProgram {
+    let bytecode =
+      std::fs::read("../target/plaintext_authentication_64.json").expect("Failed to read Noir program file");
+    NoirProgram::new(&bytecode)
+  }
+
+  pub fn json_extraction() -> NoirProgram {
+    let bytecode =
+      std::fs::read("../target/json_extraction.json").expect("Failed to read Noir program file");
+    NoirProgram::new(&bytecode)
+  }
 }

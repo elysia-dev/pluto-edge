@@ -96,16 +96,16 @@ impl Memory for Configuration {
 #[derive(Debug, Clone)]
 pub struct Switchboard<M: Memory> {
   /// The collection of Noir circuits that can be executed
-  pub(crate) circuits: Vec<NoirProgram>,
+  pub circuits: Vec<NoirProgram>,
 
   /// Public input values (initial registers for the computation)
-  pub(crate) public_input: Vec<Scalar>,
+  pub public_input: Vec<Scalar>,
 
   /// The initial circuit index to start execution from
-  pub(crate) initial_circuit_index: usize,
+  pub initial_circuit_index: usize,
 
   /// Input data specific to the memory model
-  pub(crate) switchboard_inputs: M::Data,
+  pub switchboard_inputs: M::Data,
 }
 
 impl Switchboard<Configuration> {
